@@ -12,7 +12,7 @@ public class PrimeStreaming_NC17 {
   private static final BitSet primes = new BitSet(LIMIT+1);
 
   static {
-    primes.set(2, primes.size());
+    primes.set(2, LIMIT+1);
 
     for (int i = 4; i < LIMIT; i += 2)
       primes.clear(i);

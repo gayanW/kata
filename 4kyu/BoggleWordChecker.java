@@ -45,7 +45,7 @@ class BoggleWordChecker {
                 nodes.add(new Node(rIndex, cIndex, board[rIndex][cIndex]));
             }));
     return nodes;
-}
+  }
 
   private boolean isWithinBounds(int rIndex, int cIndex) {
     return rIndex >= 0 && rIndex < board.length && cIndex >= 0 && cIndex < board[0].length;
@@ -54,10 +54,8 @@ class BoggleWordChecker {
   boolean check() {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[0].length; j++) {
-        if (board[i][j] == word[0]) {
-          if (DFS(i, j, 1))
-            return true;
-        }
+        if (board[i][j] == word[0] && DFS(i, j, 1))
+          return true;
       }
     }
     return false;
@@ -73,8 +71,5 @@ class BoggleWordChecker {
       this.value = value;
     }
   }
-
 }
-
-
 

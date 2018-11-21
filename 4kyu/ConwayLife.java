@@ -1,6 +1,7 @@
 import static org.junit.Assert.assertArrayEquals;
 
 import java.util.Arrays;
+import java.util.OptionalInt;
 import java.util.stream.IntStream;
 import org.junit.Test;
 
@@ -38,14 +39,25 @@ public class ConwayLife {
   }
 
   private static int[][] crop(int[][] matrix) {
-    int rMin = IntStream.range(0, matrix.length).filter(rIdx -> !isDead(matrix[rIdx])).findFirst().orElse(0);
-    int rMax = IntStream.iterate(matrix.length - 1, rIdx -> --rIdx).filter(rIdx -> !isDead(matrix[rIdx])).findFirst().orElse(0);
+    int rMin = 0, rMax = 0;
+    for (int rIdx = 0; rIdx < matrix.length; rIdx++) {
+      if (!isDead(matrix[rIdx])) {
+        rMax = rIdx;
+        if (rMin == 0) rMin = rIdx;
+      }
+    }
 
-    int cMin = IntStream.range(0, matrix[0].length).filter(cIdx -> !isDead(getCol(matrix, cIdx))).findFirst().orElse(0);
-    int cMax = IntStream.iterate(matrix[0].length - 1, cIdx -> --cIdx).filter(cIdx -> !isDead(getCol(matrix, cIdx))).findFirst().orElse(0);
+    int cMin = 0, cMax = 0;
+    for (int cIdx = 0; cIdx < matrix[0].length; cIdx++) {
+      if (!isDead(getCol(matrix, cIdx))) {
+        cMax = cIdx;
+        if (cMin == 0) cMin = cIdx;
+      }
+    }
 
     int[][] cropped = new int[rMax - rMin + 1][cMax - cMin + 1];
-    IntStream.range(0, cropped.length).forEach(rIdx -> System.arraycopy(matrix[rIdx + rMin], cMin, cropped[rIdx], 0, cropped[0].length));
+    for (int rIdx = 0; rIdx < cropped.length; rIdx++)
+      System.arraycopy(matrix[rIdx + rMin], cMin , cropped[rIdx], 0, cropped[0].length);
     return cropped;
   }
 
